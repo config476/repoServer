@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="ISO-8859-1"/>
+    <title>Dashboard</title>
+    <style>
+        table {
+            /*border-collapse: collapse;*/
+            width: 95%;
+            font-family: 'Open Sans', sans-serif;
+        }
+        th {
+            background-color: #b189fa;
+            font-weight: bold;
+            height: 40px;
+            color: azure;
+        }
+        td, th {
+            border-right: 1px solid #ccc;
+            padding: 8px;
+        }
+        tr:nth-child(even) {background-color: #f2f2f2;}
+        tr:hover {
+            background-color: #ded3f2;
+        }
+        h1 {
+            font-family: 'Open Sans', sans-serif;
+        }
+        .container {
+            margin: 30px;
+        }
+        .filter-button-device {
+            background-color: #c6b0fa;
+            color: white;
+            font-weight: bold;
+            padding: 8px;
+            height: 40px;
+            width: 150px;
+            border-color: azure;
+        }
+        .filter-device{
+            color: black;
+            border: 3px solid #555;
+            height: 40px;
+            width: 30%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+<h1>Dashboard</h1>
+
+<input type="text" class="filter-device" placeholder="Search by Activity..."/>
+<button type="button" class="filter-button-device">Filter by Device</button> <!-- Updated class name -->
+
+<table id="employee-table">
+    <thead>
+    <tr>
+        <th>LogId</th>
+        <th>Device</th>
+        <th>Date</th>
+        <th>Activity</th>
+        <th>Package Name</th>
+    </tr>
+    <div class="container">
+
+    </div>
+    </thead>
+    <tbody>
+    <tr th:each="employee : ${employees}">
+        <td th:text="${employee.id}"></td>
+        <td th:text="${employee.name}"></td>
+        <td th:text="${employee.location}"></td>
+        <td th:text="${employee.branch}"></td>
+        <td th:text="${employee.salary}"></td>
+    </tr>
+    </tbody>
+</table>
+
+<script>
+    // Filter the employee table by device
+    var filterDeviceButton = document.querySelector('.filter-button-device'); // Updated class name
+
+    filterDeviceButton.addEventListener('click', function() {
+        // Get the filter value from the input field
+        var filterValue = document.querySelector('.filter-device').value;
+
+        // Get all the rows in the table
+        var rows = document.querySelectorAll('#employee-table tbody tr');
+
+        // Hide all the rows that don't match the filter value
+        for (var i = 0; i < rows.length; i++) {
+            var row = rows[i];
+            var device = row.querySelector('td:nth-child(4)').textContent;
+
+            if (device.indexOf(filterValue) === -1) {
+                row.style.display = 'none';
+            } else {
+                row.style.display = '';
+            }
+        }
+    });
+
+
+
+</script>
+</body>
+</html>
